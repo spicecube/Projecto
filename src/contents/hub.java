@@ -1,6 +1,8 @@
 package contents;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -30,16 +32,17 @@ public class hub
 		
 		//initializing window{
 			framer = new JFrame();
-			framer.setSize(1000,500);
+			framer.setSize(850,500);
 			
-			//TODO: find a way to set location to the perfect center
-			framer.setLocation(250,250);
+			//perfect center{
+			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+			framer.setLocation(dim.width/2-framer.getSize().width/2, dim.height/2-framer.getSize().height/2);
+			//}
 			
 			framer.addKeyListener(handler);//key handling
-			framer.addMouseListener(handler);//mouse handling
-			
+			framer.addMouseListener(handler);//mouse handling		
 			framer.getContentPane().setBackground( Color.BLACK );//back color
-			framer.setUndecorated(true);//removes windowed look
+			framer.setUndecorated(false);//when TRUE, removes windowed look
 			//framer.setFocusable(true);
 			framer.setVisible(true);
 		//}
@@ -51,55 +54,64 @@ public class hub
 		Timer maintime = new Timer(1000, (ActionListener)this);
 
 		@Override
-		public void actionPerformed(ActionEvent arg0) {
+		public void actionPerformed(ActionEvent e) 
+		{
 			// TODO Auto-generated method stub
 			
 		}
 
 		@Override
-		public void keyPressed(KeyEvent arg0) {
+		public void keyPressed(KeyEvent arg0) 
+		{
 			// TODO Auto-generated method stub
 			
 		}
 
 		@Override
-		public void keyReleased(KeyEvent arg0) {
+		public void keyReleased(KeyEvent arg0) 
+		{
 			// TODO Auto-generated method stub
 	
 		}
 
 		@Override
-		public void keyTyped(KeyEvent arg0) {
+		public void keyTyped(KeyEvent arg0) 
+		{
 			// TODO Auto-generated method stub
 			
 		}
 
 		@Override
-		public void mouseClicked(MouseEvent arg0) {
+		public void mouseClicked(MouseEvent arg0) 
+		{
 			// TODO Auto-generated method stub
 			
 		}
 
 		@Override
-		public void mouseEntered(MouseEvent arg0) {
+		public void mouseEntered(MouseEvent arg0) 
+		{
 			// TODO Auto-generated method stub
 			
 		}
 
 		@Override
-		public void mouseExited(MouseEvent arg0) {
+		public void mouseExited(MouseEvent arg0) 
+		{
 			// TODO Auto-generated method stub
 			
 		}
 
 		@Override
-		public void mousePressed(MouseEvent arg0) {
+		public void mousePressed(MouseEvent arg0) 
+		{
 			// TODO Auto-generated method stub
 			
 		}
 
 		@Override
-		public void mouseReleased(MouseEvent arg0) {
+		public void mouseReleased(MouseEvent arg0) 
+		{
 			// TODO Auto-generated method stub
 			
 		}
