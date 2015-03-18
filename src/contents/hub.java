@@ -1,4 +1,4 @@
-package contents;
+
 
 import java.awt.Color;
 import java.awt.event.ActionListener;
@@ -6,10 +6,14 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import javax.swing.JFrame;
 
 
-public class mainFrame 
+
+public class hub 
 {
+	JFrame framer;
+	
 	public static void main(String[] args)
 	{
 		HandlerClass handler = new HandlerClass();
