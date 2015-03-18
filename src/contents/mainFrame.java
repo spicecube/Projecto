@@ -12,4 +12,7 @@ public class mainFrame
 			System.out.println(x+i);
 		}
 	}
+	void main () {
+		System.out.println("HELLO");
+	}
 }
