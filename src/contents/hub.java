@@ -11,15 +11,24 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.Timer;
 
 
 
 public class hub 
 {
-	JFrame framer;
-	HandlerClass handler = new HandlerClass();
+	JFrame framer; //the "window"
+	HandlerClass handler = new HandlerClass(); //a private class within this "hub class"
+											   //Handles keylistening and mouselistening (see below class)
+	
+	//importing the image to the program
+	ImageIcon intro = new ImageIcon(getClass().getResource("/imgs/introSample.png")); 
+	//attaching the image to a JLabel
+	JLabel introLabel = new JLabel(intro);
+	
 	
 	public static void main(String[] args)
 	{
@@ -42,10 +51,17 @@ public class hub
 			framer.addKeyListener(handler);//key handling
 			framer.addMouseListener(handler);//mouse handling		
 			framer.getContentPane().setBackground( Color.BLACK );//back color
-			framer.setUndecorated(false);//when TRUE, removes windowed look
+			framer.setUndecorated(true);//when TRUE, removes windowed look
 			//framer.setFocusable(true);
 			framer.setVisible(true);
 		//}
+			
+			framer.getContentPane().add(introLabel);//add the image to the frame
+	
+			//lets wrap it boys
+			//the below lines make sure everything is "drawn/added" correctly
+			framer.getContentPane().validate();
+			framer.getContentPane().repaint();
 	}
 	
 	
