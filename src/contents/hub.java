@@ -63,8 +63,6 @@ public class hub extends JFrame
 	//importing the image to the program
 	ImageIcon intro = new ImageIcon(getClass().getResource("/imgs/introSample.png"));
 	Image img = intro.getImage();
-	Image newimg = img.getScaledInstance(1920, 1080,  java.awt.Image.SCALE_SMOOTH);
-	ImageIcon real = new ImageIcon(newimg);
 	
 	//attaching the image to a JLabel
 	JLabel introLabel;
@@ -91,27 +89,33 @@ public class hub extends JFrame
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		double monitorWidth = dim.getWidth();
 		double monitorHeight = dim.getHeight();
-		                                         
-		//initializing window{
-			
-			//lp.setSize(dim.width,dim.height); //this means fullScreen
-												  //TODO: find way to resize the image?
-		framer = new JFrame();
-			
-			
+		Image newimg = img.getScaledInstance((int)monitorWidth, (int)monitorHeight,  java.awt.Image.SCALE_SMOOTH);
+		ImageIcon real = new ImageIcon(newimg);
+		
 		//******************prompt for full screen
 		JFrame frame = new JFrame("InputDialog");
 		Object[] yOrn = {"Yes", "No"};
-		String s = (String)JOptionPane.showInputDialog(frame, "fullscreen?\n", "í•˜í•˜í•˜í•˜", JOptionPane.QUESTION_MESSAGE, null, yOrn, yOrn[1]);
+		String s = (String)JOptionPane.showInputDialog(frame, "fullscreen?\n", "ÇÏÇÏÇÏÇÏ", JOptionPane.QUESTION_MESSAGE, null, yOrn, yOrn[1]);
 
+		JPanel introPanel = new JPanel(null);
+		
 		if (s == "Yes") {
 			introLabel = new JLabel(real);
-			framer.setSize((int)monitorWidth,(int)monitorHeight);
+			setSize((int)monitorWidth,(int)monitorHeight);
+			
+			introPanel.setBounds(0,0,(int)monitorWidth, (int)monitorHeight);
+			introPanel.add(introLabel);		
+			introLabel.setBounds(0, 0, (int)monitorWidth,(int)monitorHeight);
 		}
 		else {
 			introLabel = new JLabel(intro);
-			framer.setSize(850,500);
+			setSize(850,500);
+			
+			introPanel.setBounds(0,0,850, 500);
+			introPanel.add(introLabel);			
+			introLabel.setBounds(0, 0, 850,500);
 		}
+		lp.add(introPanel,new Integer(1));
 		//******************finish getInput
 		
 			setUndecorated(true);//when TRUE, removes windowed look
@@ -130,11 +134,11 @@ public class hub extends JFrame
 		//}	
 			
 		//setting up the intro panel{
-			JPanel introPanel = new JPanel(null); // null means that the layout is null	
+			/*JPanel introPanel = new JPanel(null); // null means that the layout is null	
 			introPanel.setBounds(0,0,850, 500);
 			introPanel.add(introLabel);//add the image to the JPanel			
 			introLabel.setBounds(0, 0, 850,500);
-			lp.add(introPanel,new Integer(1));
+			lp.add(introPanel,new Integer(1));*/
 		//}
 			
 		//lets wrap it boys
