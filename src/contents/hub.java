@@ -119,7 +119,7 @@ public class hub extends JFrame
 			
 		//set up invisiMenu (for closing/settings aka menu)
 			invisiMenu = new JPanel(null);
-			invisiMenu.setBounds(0,0,dim.width,50);
+			invisiMenu.setBounds(0,-50,dim.width,50);
 			invisiMenu.setBackground(Color.red);
 			lp.add(invisiMenu, new Integer(3));
 			
@@ -127,12 +127,43 @@ public class hub extends JFrame
 			JPanel invisiBox = new JPanel(null);
 			invisiBox.setBounds(0,0,dim.width,50);
 			invisiBox.setBackground(Color.green);
+			invisiBox.addMouseListener(new MouseListener()
+			{
+
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					
+				}
+
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					System.out.println("yololol");
+				}
+
+				@Override
+				public void mouseExited(MouseEvent arg0) {
+					
+				}
+
+				@Override
+				public void mousePressed(MouseEvent arg0) {
+					
+				}
+
+				@Override
+				public void mouseReleased(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+			});
+			
 			lp.add(invisiBox, new Integer(2));
 	}
 	
 	public void menuMove(boolean isIn)
 	{
-		if (((isIn == false) && (invisiMenu.getY() == 0 )) || ((isIn == true) && (invisiMenu.getY() == 50))) 
+		if (((isIn == false) && (invisiMenu.getY() == -50 )) || ((isIn == true) && (invisiMenu.getY() == 0))) 
 		{//TODO make the numbers right
 			System.out.println("return");
 			return;
@@ -166,7 +197,7 @@ public class hub extends JFrame
 			
 			if (e.getSource() == maintime)
 			{
-				if (framed == true && fly.isRunning()== false &&  invisiMenu.getY()==0)
+				if (framed == true && fly.isRunning()== false &&  invisiMenu.getY()==-50)
 				{
 					moveCount =0;
 					isIn = true;
@@ -176,7 +207,7 @@ public class hub extends JFrame
 			//if the main timer is running, we're inside the frame, nothing is currently moving and we're opened
 			//when we should be closed
 			//open up
-				if (framed == false && fly.isRunning()!= true &&  invisiMenu.getY()==50)
+				if (framed == false && fly.isRunning()!= true &&  invisiMenu.getY()==0)
 				{
 					moveCount=0;
 					isIn = false;
