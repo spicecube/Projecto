@@ -70,6 +70,8 @@ public class hub extends JFrame
 	
 	final int reach = 50;
 	
+	Timer fly = new Timer(10,handler);
+	
 	public static void main(String[] args)
 	{
 		new hub();
@@ -91,10 +93,10 @@ public class hub extends JFrame
 			setUndecorated(true);//when TRUE, removes windowed look
 			
 			//perfect center{
-				//setLocation(dim.width/2-getSize().width/2, dim.height/2-getSize().height/2);
+				setLocation(dim.width/2-getSize().width/2, dim.height/2-getSize().height/2);
 			//}	
 			
-			setLocation(0,0);
+			//setLocation(0,0);
 			
 		//}
 			
@@ -138,11 +140,26 @@ public class hub extends JFrame
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
 					System.out.println("yololol");
+					System.out.println("ayy we're framed");
+					framed = true;
+					
+					if (fly.isRunning() == false) 
+					{
+						isIn = true;
+						fly.start();
+					}
+				
 				}
 
 				@Override
 				public void mouseExited(MouseEvent arg0) {
-					
+					framed = false;
+					System.out.println("exited");
+					if (fly.isRunning() == false) 
+					{
+						isIn = false;
+						fly.start();
+					}
 				}
 
 				@Override
@@ -187,7 +204,7 @@ public class hub extends JFrame
 	private class HandlerClass implements MouseListener, KeyListener,ActionListener 
 	{
 		Timer maintime = new Timer(1000, (ActionListener)this);
-		Timer fly = new Timer(10,(ActionListener)this);
+		
 
 		int moveCount =0;
 		
@@ -270,26 +287,12 @@ public class hub extends JFrame
 		{
 			if (!maintime.isRunning()) maintime.start();
 			
-			System.out.println("ayy we're framed");
-			framed = true;
-			
-			if (fly.isRunning() == false) 
-			{
-				isIn = true;
-				fly.start();
-			}
 		}
 
 		@Override
 		public void mouseExited(MouseEvent arg0) 
 		{
-			framed = false;
-			System.out.println("exited");
-			if (fly.isRunning() == false) 
-			{
-				isIn = false;
-				fly.start();
-			}
+	
 		}
 
 		@Override
