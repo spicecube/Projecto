@@ -34,6 +34,7 @@ package contents;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -42,11 +43,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import javax.swing.JOptionPane;
 import javax.swing.JLayeredPane;
 
 
@@ -58,10 +61,13 @@ public class hub extends JFrame
 											   //Handles keylistening and mouselistening (see below class)
 	
 	//importing the image to the program
-	ImageIcon intro = new ImageIcon(getClass().getResource("/imgs/introSample.png")); 
+	ImageIcon intro = new ImageIcon(getClass().getResource("/imgs/introSample.png"));
+	Image img = intro.getImage();
+	Image newimg = img.getScaledInstance(1920, 1080,  java.awt.Image.SCALE_SMOOTH);
+	ImageIcon real = new ImageIcon(newimg);
 	
 	//attaching the image to a JLabel
-	JLabel introLabel = new JLabel(intro);
+	JLabel introLabel;
 	
 	boolean isIn = false; ////what direction the moving should go
 	boolean framed = false; // checks to see if the mouse is isIn
@@ -83,13 +89,31 @@ public class hub extends JFrame
 		
 		//storing screen size 
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		double monitorWidth = dim.getWidth();
+		double monitorHeight = dim.getHeight();
 		                                         
 		//initializing window{
 			
 			//lp.setSize(dim.width,dim.height); //this means fullScreen
 												  //TODO: find way to resize the image?
+		framer = new JFrame();
+			
+			
+		//******************prompt for full screen
+		JFrame frame = new JFrame("InputDialog");
+		Object[] yOrn = {"Yes", "No"};
+		String s = (String)JOptionPane.showInputDialog(frame, "fullscreen?\n", "하하하하", JOptionPane.QUESTION_MESSAGE, null, yOrn, yOrn[1]);
+
+		if (s == "Yes") {
+			introLabel = new JLabel(real);
+			framer.setSize((int)monitorWidth,(int)monitorHeight);
+		}
+		else {
+			introLabel = new JLabel(intro);
+			framer.setSize(850,500);
+		}
+		//******************finish getInput
 		
-			setSize(850, 500);
 			setUndecorated(true);//when TRUE, removes windowed look
 			
 			//perfect center{
