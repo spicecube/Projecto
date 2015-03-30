@@ -34,6 +34,7 @@ package contents;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -42,11 +43,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import javax.swing.JOptionPane;
 import javax.swing.JLayeredPane;
 
 
@@ -58,10 +61,11 @@ public class hub extends JFrame
 											   //Handles keylistening and mouselistening (see below class)
 	
 	//importing the image to the program
-	ImageIcon intro = new ImageIcon(getClass().getResource("/imgs/introSample.png")); 
+	ImageIcon intro = new ImageIcon(getClass().getResource("/imgs/introSample.png"));
+	Image img = intro.getImage();
 	
 	//attaching the image to a JLabel
-	JLabel introLabel = new JLabel(intro);
+	JLabel introLabel;
 	
 	boolean isIn = false; ////what direction the moving should go
 	boolean framed = false; // checks to see if the mouse is isIn
@@ -83,13 +87,37 @@ public class hub extends JFrame
 		
 		//storing screen size 
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		                                         
-		//initializing window{
-			
-			//lp.setSize(dim.width,dim.height); //this means fullScreen
-												  //TODO: find way to resize the image?
+		double monitorWidth = dim.getWidth();
+		double monitorHeight = dim.getHeight();
+		Image newimg = img.getScaledInstance((int)monitorWidth, (int)monitorHeight,  java.awt.Image.SCALE_SMOOTH);
+		ImageIcon real = new ImageIcon(newimg);
 		
-			setSize(850, 500);
+		//******************prompt for full screen
+		JFrame frame = new JFrame("InputDialog");
+		Object[] yOrn = {"Yes", "No"};
+		String s = (String)JOptionPane.showInputDialog(frame, "fullscreen?\n", "馬馬馬馬", JOptionPane.QUESTION_MESSAGE, null, yOrn, yOrn[1]);
+
+		JPanel introPanel = new JPanel(null);
+		
+		if (s == "Yes") {
+			introLabel = new JLabel(real);
+			setSize((int)monitorWidth,(int)monitorHeight);
+			
+			introPanel.setBounds(0,0,(int)monitorWidth, (int)monitorHeight);
+			introPanel.add(introLabel);		
+			introLabel.setBounds(0, 0, (int)monitorWidth,(int)monitorHeight);
+		}
+		else {
+			introLabel = new JLabel(intro);
+			setSize(850,500);
+			
+			introPanel.setBounds(0,0,850, 500);
+			introPanel.add(introLabel);			
+			introLabel.setBounds(0, 0, 850,500);
+		}
+		lp.add(introPanel,new Integer(1));
+		//******************finish getInput
+		
 			setUndecorated(true);//when TRUE, removes windowed look
 			
 			//perfect center{
@@ -106,11 +134,11 @@ public class hub extends JFrame
 		//}	
 			
 		//setting up the intro panel{
-			JPanel introPanel = new JPanel(null); // null means that the layout is null	
+			/*JPanel introPanel = new JPanel(null); // null means that the layout is null	
 			introPanel.setBounds(0,0,850, 500);
 			introPanel.add(introLabel);//add the image to the JPanel			
 			introLabel.setBounds(0, 0, 850,500);
-			lp.add(introPanel,new Integer(1));
+			lp.add(introPanel,new Integer(1));*/
 		//}
 			
 		//lets wrap it boys
