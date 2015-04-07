@@ -63,6 +63,9 @@ import javax.swing.JLayeredPane;
 
 public class Hub extends JFrame
 {
+	GameFlow gamer = new GameFlow();
+	
+	JPanel introPanel; // just the starting panel the shows the intro
 	JLayeredPane lp = getLayeredPane(); //the "window"
 	HandlerClass handler = new HandlerClass(); //a private class within this "hub class"
 											   //Handles keylistening and mouselistening (see below class)
@@ -76,6 +79,7 @@ public class Hub extends JFrame
 	
 	boolean isIn = false; ////what direction the moving should go
 	boolean framed = false; // checks to see if the mouse is isIn
+	boolean firstEnter = true; // getting past the introPanel
 	
 	JPanel invisiMenu; // the invisible box for the "menu"
 	
@@ -83,41 +87,20 @@ public class Hub extends JFrame
 	
 	Timer fly = new Timer(10,handler);
 	
+	int randCount = 0;
+	Scene adder = null;
+	
 	public static void main(String[] args) throws UnsupportedAudioFileException, IOException, LineUnavailableException
 	{
 		new Hub();
-		//System.out.println("ayy");
 	}
 	
-	void gameFlow() throws UnsupportedAudioFileException, IOException, LineUnavailableException
-	{
 	
-	//initializing the Scenes and Divergences
-		Scene arrested = new Scene(new ImageIcon(getClass().getResource("/imgs/arrested.png")),"");
-		Scene cheer = new Scene(new ImageIcon(getClass().getResource("/imgs/cheer.png")),"");
-		Scene court = new Scene(new ImageIcon(getClass().getResource("/imgs/court.png")),"");
-		Scene gDead = new Scene(new ImageIcon(getClass().getResource("/imgs/gDead.png")),"");
-		Scene guilty = new Scene(new ImageIcon(getClass().getResource("/imgs/guilty.png")),"");
-		Scene gunners = new Scene(new ImageIcon(getClass().getResource("/imgs/gunners.png")),"");
-		Scene introClass = new Scene(new ImageIcon(getClass().getResource("/imgs/introClass.png")),"");
-		Scene prosecution = new Scene(new ImageIcon(getClass().getResource("/imgs/prosecution.png")),"");
-
-		Divergence ProsecutionA = new Divergence(new ImageIcon(getClass().getResource("/imgs/divProsecutionA.png")),"");
-		Divergence ProsecutionB = new Divergence(new ImageIcon(getClass().getResource("/imgs/divProsecutionB.png")),"");
-		Divergence ShotA = new Divergence(new ImageIcon(getClass().getResource("/imgs/divShotA.png")),"");
-		Divergence ShotB = new Divergence(new ImageIcon(getClass().getResource("/imgs/divShotB.png")),"");
-		
-		
-		AudioInputStream audioIn = AudioSystem.getAudioInputStream(getClass().getResource("/sounds/arrested.wav"));
-		Clip arrestedWav = AudioSystem.getClip();
-		arrestedWav.open(audioIn);
-		arrestedWav.start();
-		
-		
-	}
 	
 	Hub() throws UnsupportedAudioFileException, IOException, LineUnavailableException
 	{
+		
+		GameFlow gamer = new GameFlow();
 		//storing screen size 
 			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 				
@@ -139,7 +122,7 @@ public class Hub extends JFrame
 		Object[] yOrn = {"Yes", "No"};
 		String s = (String)JOptionPane.showInputDialog(frame, "fullscreen?\n", "馬馬馬馬", JOptionPane.QUESTION_MESSAGE, null, yOrn, yOrn[1]);
 
-		JPanel introPanel = new JPanel(null);
+		introPanel = new JPanel(null);
 		
 		if (s == "Yes") 
 		{
@@ -165,6 +148,7 @@ public class Hub extends JFrame
 			introPanel.add(introLabel);			
 			introLabel.setBounds(0, 0, 850,500);
 		}
+		
 		lp.add(introPanel,new Integer(1));
 		//}******************finish getInput
 		
@@ -347,21 +331,57 @@ public class Hub extends JFrame
 		public void keyPressed(KeyEvent arg0) 
 		{
 		
-			System.out.println("you pressed a key");
+			//System.out.println("you pressed a key");
+			
 			
 		}
 
 		@Override
-		public void keyReleased(KeyEvent arg0) 
+		public void keyReleased(KeyEvent e) 
 		{
 			
-			System.out.println("you released");
+			//System.out.println("you released");
+			
+			if (e.getKeyCode() == KeyEvent.VK_ENTER) 
+				{
+					
+					System.out.println("Calling next " + randCount++);
+					//gamer.getNext(current, selection)
+					if (firstEnter) 
+					{
+						System.out.println("leave");
+						lp.remove(introPanel);
+						lp.repaint();
+						
+						adder = gamer.getNext();
+						
+						System.out.println(adder);
+						lp.add(adder);
+						lp.repaint();
+						
+						firstEnter = false;
+					}
+					
+					else
+					{
+						System.out.println("wanna remove " + adder);
+						lp.remove(adder);
+						lp.repaint();
+						
+						adder = gamer.getNext();
+						
+						System.out.println(adder);
+						lp.add(adder);
+						lp.repaint();
+						
+					}
+				}
 		}
 
 		@Override
 		public void keyTyped(KeyEvent arg0) 
 		{
-			System.out.println("you typed");
+			//System.out.println("you typed");
 			
 		}
 
