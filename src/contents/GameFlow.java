@@ -11,7 +11,7 @@ import javax.swing.ImageIcon;
 
 public class GameFlow 
 {
-	//
+	////
 	//initializing the Scenes and Scenes
 	Scene arrested = new Scene(new ImageIcon(getClass().getResource("/imgs/arrested.png")),"You're coming with me! And then I was taken to prison");
 	Scene cheer = new Scene(new ImageIcon(getClass().getResource("/imgs/cheer.png")),"The crowd cheered for me, chanting my name as if I was some kinda hero");
