@@ -6,7 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 
 public class test {
-
+//
   public static void main(String[] args) {
     //JFrame.setDefaultLookAndFeelDecorated(true);
     JFrame frame = new JFrame("GridLayout Test");

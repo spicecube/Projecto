@@ -18,7 +18,7 @@ public class ScriptBox extends JPanel implements ActionListener
 	Timer letterTime;
 	int count =0;
 	int placer = -10;
-	
+	//
 	
 	ScriptBox(int gameWidth)
 	{

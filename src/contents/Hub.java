@@ -65,7 +65,7 @@ import javax.swing.JLayeredPane;
 public class Hub extends JFrame
 {
 	GameFlow gamer = new GameFlow();
-	
+	//
 	Dimension dim; //keep track of width & height
 	
 	JPanel introPanel; // just the starting panel the shows the intro

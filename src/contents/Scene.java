@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 public class Scene extends JPanel
 {
+	//
 	boolean isDone = false; //holds true is a Scene has played through
 	boolean hasChoice = false;
 	boolean hasScript = true;
