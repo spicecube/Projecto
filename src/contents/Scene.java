@@ -11,8 +11,11 @@ public class Scene extends JPanel
 {
 	boolean isDone = false; //holds true is a Scene has played through
 	boolean hasChoice = false;
+	boolean hasScript = true;
 	int choice = -99;
+	int timeCount = -99;
 	Scene [] nexts = new Scene[4];
+	String dialog;
 	
 	
 	
@@ -22,6 +25,7 @@ public class Scene extends JPanel
 		JLabel pic = new JLabel(picture);
 		pic.setBounds(0,0,850,500);
 		add(pic);
+		this.dialog = dialog;
 	}
 	
 	Scene getNext(int selection)
@@ -51,5 +55,9 @@ public class Scene extends JPanel
 		nexts[2] = c3;
 		nexts[3] = c4;
 	}
+	
+	 
+	
+	
 
 }

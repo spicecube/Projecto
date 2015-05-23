@@ -33,6 +33,7 @@ package contents;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -65,6 +66,8 @@ public class Hub extends JFrame
 {
 	GameFlow gamer = new GameFlow();
 	
+	Dimension dim; //keep track of width & height
+	
 	JPanel introPanel; // just the starting panel the shows the intro
 	JLayeredPane lp = getLayeredPane(); //the "window"
 	HandlerClass handler = new HandlerClass(); //a private class within this "hub class"
@@ -80,14 +83,18 @@ public class Hub extends JFrame
 	boolean isIn = false; ////what direction the moving should go
 	boolean framed = false; // checks to see if the mouse is isIn
 	boolean firstEnter = true; // getting past the introPanel
+	boolean showScript = false; // letting you know when the scriptBox 
+								//timer has full displayed for text
 	
 	JPanel invisiMenu; // the invisible box for the "menu"
+	ScriptBox scriptBox;  // the box that "plays" the script of a scene
 	
 	final int reach = 50;
 	
 	Timer fly = new Timer(10,handler);
 	
 	int randCount = 0;
+	int textCount = 0;
 	Scene adder = null;
 	
 	public static void main(String[] args) throws UnsupportedAudioFileException, IOException, LineUnavailableException
@@ -102,7 +109,7 @@ public class Hub extends JFrame
 		
 		GameFlow gamer = new GameFlow();
 		//storing screen size 
-			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		dim = Toolkit.getDefaultToolkit().getScreenSize();
 				
 			setUndecorated(true);//when TRUE, removes windowed look
 		
@@ -171,17 +178,22 @@ public class Hub extends JFrame
 			lp.add(introPanel,new Integer(1));*/
 		//}
 			
-		
+		//set up scriptBox for holding the manuscript player
+			scriptBox = new ScriptBox(850);
+			System.out.println("uhh" + 850);
+			scriptBox.setBounds(0,500,850,100);
+			scriptBox.setBackground(Color.gray);
+			lp.add(scriptBox, new Integer(4));
 			
 		//set up invisiMenu (for closing/settings aka menu)
 			invisiMenu = new JPanel(null);
-			invisiMenu.setBounds(0,-50,dim.width,50);
+			invisiMenu.setBounds(0,-50,850,50);
 			invisiMenu.setBackground(Color.red);
 			lp.add(invisiMenu, new Integer(3));
 			
-		//set up invisiMenu (for closing/settings aka menu)
+		//set up invisiBox (for checking for menu drawout)
 			JPanel invisiBox = new JPanel(null);
-			invisiBox.setBounds(0,0,dim.width,50);
+			invisiBox.setBounds(0,0,850,50);
 			invisiBox.setBackground(Color.green);
 			invisiBox.addMouseListener(new MouseListener() //listener that checks for menu drop
 			{
@@ -248,7 +260,7 @@ public class Hub extends JFrame
 			validate();
 			repaint();
 			setVisible(true);
-			
+			//pack();
 			/**At this point everything except the gameflow should be set.**/
 	}
 	
@@ -277,10 +289,25 @@ public class Hub extends JFrame
 	
 	private class HandlerClass implements MouseListener, KeyListener,ActionListener 
 	{
+		//regular game timer that marks every second
 		Timer maintime = new Timer(1000, (ActionListener)this);
 		
+		//timer that moves the scriptBox at a certain speed
+		Timer scriptBoxMove = new Timer(5,(ActionListener)this);
+		
+		
+		Timer textTime = new Timer(10,(ActionListener)this);
 
-		int moveCount =0;
+		int moveCount =0; // used for moving the menu
+		
+		void playText()
+		{
+			//char [] letterSplit = text.toCharArray();
+			
+			textTime.start();
+			scriptBox.setLabels(adder.dialog);
+			System.out.println("so yea swag");
+		}
 		
 		@Override
 		public void actionPerformed(ActionEvent e) 
@@ -288,6 +315,9 @@ public class Hub extends JFrame
 			
 			if (e.getSource() == maintime)
 			{
+			
+			//if the mouse is with the area and the menu is not moving out and is in the default
+			//position of -50 (unseen)
 				if (framed == true && fly.isRunning()== false &&  invisiMenu.getY()==-50)
 				{
 					moveCount =0;
@@ -323,8 +353,36 @@ public class Hub extends JFrame
 						moveCount =0;
 					}//end inner if
 				}//end outer if
-				
 			
+				
+		//if the timer for moving the scriptBox is on		
+			if (e.getSource() == scriptBoxMove)
+			{
+			
+			//incrementally move the scriptBox up to 400 (where we want it to be when fully shown)	
+				if (scriptBox.getY() >= 400)
+					scriptBox.setLocation(0,scriptBox.getLocation().y - 1);			
+				
+			//arrived at 400 and is fully shown
+				else if (showScript == false)
+				{
+					System.out.println("heyo");
+					showScript = true;
+					playText();
+				}
+//				else
+//				{
+//					scriptBoxMove.stop();
+//					scriptBox.setLocation(0,500);
+//				}
+				
+				repaint();
+			}
+			
+			if (e.getSource() == textTime)
+			{
+				//scriptBox.setText("");
+			}
 		}
 
 		@Override
@@ -332,6 +390,8 @@ public class Hub extends JFrame
 		{
 		
 			//System.out.println("you pressed a key");
+
+			scriptBox.reset();
 			
 			
 		}
@@ -344,35 +404,60 @@ public class Hub extends JFrame
 			
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) 
 				{
+				
+				showScript = false;
 					
-					System.out.println("Calling next " + randCount++);
-					//gamer.getNext(current, selection)
+				//the firstEnter is special since the introPanel is not
+				//of Scene type
 					if (firstEnter) 
 					{
-						System.out.println("leave");
+						//Remove the introPanel
 						lp.remove(introPanel);
 						lp.repaint();
 						
+						//Grab and add the next Scene
 						adder = gamer.getNext();
 						
-						System.out.println(adder);
+						if (adder.hasScript) 
+						{
+							scriptBoxMove.stop();
+							scriptBox.setLocation(0,500);
+							//start the timer that moves the scriptBox up
+							scriptBoxMove.start();
+							//scriptBox(adder.dialog); //TODO: this is probably needed
+						}
+						
 						lp.add(adder);
 						lp.repaint();
 						
+						//It is no longer the first time
 						firstEnter = false;
 					}
 					
+					//regular game flow
 					else
 					{
-						System.out.println("wanna remove " + adder);
+						//remove the Scene currently on
 						lp.remove(adder);
 						lp.repaint();
+						scriptBox.removeAll();
 						
+						//grab the next Scene
 						adder = gamer.getNext();
 						
-						System.out.println(adder);
-						lp.add(adder);
-						lp.repaint();
+						//if it should have a scriptBox
+						if (adder.hasScript) 
+						{
+							scriptBoxMove.stop();
+							scriptBox.setLocation(0,500);
+							//start the timer that moves the scriptBox up
+							scriptBoxMove.start();
+							//scriptBox(adder.dialog); //TODO: this is probably needed
+						}
+						
+						System.out.println(adder); //checks what Scene
+						lp.add(adder);	//adding that scene
+						lp.repaint();	//repainting to ensure display
 						
 					}
 				}

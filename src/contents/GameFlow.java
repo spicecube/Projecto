@@ -12,35 +12,36 @@ import javax.swing.ImageIcon;
 public class GameFlow 
 {
 	//initializing the Scenes and Scenes
-	Scene arrested = new Scene(new ImageIcon(getClass().getResource("/imgs/arrested.png")),"");
-	Scene cheer = new Scene(new ImageIcon(getClass().getResource("/imgs/cheer.png")),"");
-	Scene court = new Scene(new ImageIcon(getClass().getResource("/imgs/court.png")),"");
-	Scene gDead = new Scene(new ImageIcon(getClass().getResource("/imgs/gDead.png")),"");
-	Scene guilty = new Scene(new ImageIcon(getClass().getResource("/imgs/guilty.png")),"");
-	Scene gunners = new Scene(new ImageIcon(getClass().getResource("/imgs/gunners.png")),"");
-	Scene introClass = new Scene(new ImageIcon(getClass().getResource("/imgs/introClass.png")),"");
+	Scene arrested = new Scene(new ImageIcon(getClass().getResource("/imgs/arrested.png")),"You're coming with me! And then I was taken to prison");
+	Scene cheer = new Scene(new ImageIcon(getClass().getResource("/imgs/cheer.png")),"The crowd cheered for me, chanting my name as if I was some kinda hero");
+	Scene court = new Scene(new ImageIcon(getClass().getResource("/imgs/court.png")),"They took me to court, what did I even do?");
+	Scene gDead = new Scene(new ImageIcon(getClass().getResource("/imgs/gDead.png")),"And then I killed him, if you asked me why I did it, I wouldnt know");
+	Scene guilty = new Scene(new ImageIcon(getClass().getResource("/imgs/guilty.png")),"The judge raised his gavel, pounded it on the table. The verdict: guilty");
+	Scene gunners = new Scene(new ImageIcon(getClass().getResource("/imgs/gunners.png")),"Our story stars with two gunners outside a door");
+	Scene introClass = new Scene(new ImageIcon(getClass().getResource("/imgs/introClass.png")),"It was 2:43 Mr. Thomas's class, just another day");
 	
 
-	Scene ProsecutionA = new Scene(new ImageIcon(getClass().getResource("/imgs/divProsectutionA.png")),"");
-	Scene ProsecutionB = new Scene(new ImageIcon(getClass().getResource("/imgs/divProsecutionB.png")),"");
-	Scene ProsecutionS = new Scene(new ImageIcon(getClass().getResource("/imgs/divProsectutionS.png")),"");
+	Scene ProsecutionA = new Scene(new ImageIcon(getClass().getResource("/imgs/divProsectutionA.png")),"Look I just did what I thought was best for everyones safety");
+	Scene ProsecutionB = new Scene(new ImageIcon(getClass().getResource("/imgs/divProsecutionB.png")),"He deserved it. That bastard would have killed everyone.");
+	Scene ProsecutionS = new Scene(new ImageIcon(getClass().getResource("/imgs/divProsectutionS.png")),"So ______ what do you have to say for yourself?");
 	
-	Scene ShotA = new Scene(new ImageIcon(getClass().getResource("/imgs/divShotA.png")),"");
-	Scene ShotB = new Scene(new ImageIcon(getClass().getResource("/imgs/divShotB.png")),"");
-	Scene ShotS = new Scene(new ImageIcon(getClass().getResource("/imgs/divShotS.png")),"");
+	Scene ShotA = new Scene(new ImageIcon(getClass().getResource("/imgs/divShotA.png")),"Before I knew it, I picked up the gun and fired");
+	Scene ShotB = new Scene(new ImageIcon(getClass().getResource("/imgs/divShotB.png")),"I couldn't do it.. This man may have been a murder, but I sure wasn't");
+	Scene ShotS = new Scene(new ImageIcon(getClass().getResource("/imgs/divShotS.png")),"Time froze, the gun was right next to me, what would I do");
 	
-	Scene end = new Scene(new ImageIcon(getClass().getResource("/imgs/end.png")),"");
+	Scene end = new Scene(new ImageIcon(getClass().getResource("/imgs/end.png")),"And the story of our hero ends");
 	
 	Scene current;
 	
 	boolean first = true; // checks to see if this is the start or not
 	
 	
-	//this should simple decide the order of things?
+	//linking up and initializing all of the Scenes
 	void init()
 	{
 		gunners.setNexts(introClass, null, null, null); 
 		gunners.setName("gunners");
+		gunners.setBounds(0,0,850,500);
 		
 		introClass.setNexts(ShotS, null, null, null);
 		introClass.setName("introClass");
@@ -95,6 +96,8 @@ public class GameFlow
 		guilty.setBounds(0,0,850,500);
 		
 		end.setNexts(end, null, null, null);
+		end.setName("end");
+		end.setBounds(0,0,850,500);
 	
 	}
 	
@@ -103,10 +106,10 @@ public class GameFlow
 		
 				
 				
-				AudioInputStream audioIn = AudioSystem.getAudioInputStream(getClass().getResource("/sounds/arrested.wav"));
-				Clip arrestedWav = AudioSystem.getClip();
-				arrestedWav.open(audioIn);
-				arrestedWav.start();
+//				AudioInputStream audioIn = AudioSystem.getAudioInputStream(getClass().getResource("/sounds/arrested.wav"));
+//				Clip arrestedWav = AudioSystem.getClip();
+//				arrestedWav.open(audioIn);
+//				arrestedWav.start();
 				
 				init();
 	}
